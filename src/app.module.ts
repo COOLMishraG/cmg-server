@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entitiy';
 import { TicketModule } from './ticket/ticket.module';
+import { Ticket } from './ticket/ticket.entity';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { TicketModule } from './ticket/ticket.module';
     type:'mongodb',
     url:'mongodb+srv://COOLMishraG:mp15cb3802@anujmishra.4a84or4.mongodb.net/',
     database:'CMG_database',
-    entities: [User],
+    entities: [User , Ticket],
     synchronize: true, 
   }),
   UserModule,

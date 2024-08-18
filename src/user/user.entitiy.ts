@@ -5,7 +5,8 @@ import { Column, Entity, ObjectIdColumn, PrimaryColumn } from "typeorm";
 export class User{
 @ObjectIdColumn()
 id:ObjectId;
-
+@Column()
+UserId:string;
 @Column()
 Name:string;
 
@@ -15,7 +16,7 @@ email:string;
 @Column()
 Phone:number;
 
-@Column()
-PNR:string;
+@Column({ type: 'simple-array', nullable: true })
+PNR: string[];
 
 }

@@ -9,14 +9,17 @@ export class UserService {
         @InjectRepository(User)
         private userRepository: MongoRepository<User>,
     ){}
-    async createUser(Name:string , email:string , Phone:number): Promise<User>{
+    async createUser(Name:string , email:string , Phone:number , UserId:string , PNR:string[]): Promise<User>{
         const newUser = this.userRepository.create({
             Name,
             email,
-            Phone
+            Phone,
+            UserId,
+            PNR
         });
         return this.userRepository.save(newUser);
     }
+
 
 
 
