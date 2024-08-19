@@ -17,6 +17,6 @@ email:string;
 Phone:number;
 
 @Column({ type: 'simple-array', nullable: true })
-PNR: string[];
+PNR: number[];
 
 }

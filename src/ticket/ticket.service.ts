@@ -3,14 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Ticket } from './ticket.entity';
 import { MongoRepository } from 'typeorm';
 import { error } from 'console';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class TicketService {
     constructor(
         @InjectRepository(Ticket)
-        private ticketRepository : MongoRepository<Ticket>){}
+        private ticketRepository : MongoRepository<Ticket>,
+        private userservices:UserService){}
     async createTicket(PNR:number ,journeyDate:Date ,Time:String,
-        Price:number,Name:string , From:string , To:string):Promise<Ticket>{
+        Price:number,Name:string , From:string , To:string , userId:string):Promise<Ticket>{
             const ticket = this.ticketRepository.create({
                 PNR,
                 journeyDate,
@@ -20,7 +22,10 @@ export class TicketService {
                 From,
                 To
             })
-            return this.ticketRepository.save(ticket);
+
+            const createdTicket = await this.ticketRepository.save(ticket);
+            await this.userservices.addPNRToUser(userId , createdTicket.PNR);
+            return createdTicket;
         }
         async modifiyTicket(pnr: number, updateData: any): Promise<Ticket> {
             // Find the existing ticket by PNR
@@ -37,7 +42,9 @@ export class TicketService {
             // Save and return the updated ticket
             return this.ticketRepository.save(ticket);
         }
-        async cancleTicket(pnr:number){
+        async cancleTicket(pnr:number , userId:string){
+            await this.userservices.removePNRToUser(userId , pnr);
             return this.ticketRepository.delete({PNR:pnr});
+
         }
 }
