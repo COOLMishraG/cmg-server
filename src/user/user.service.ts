@@ -30,15 +30,23 @@ export class UserService {
         user.PNR.push(pnr);
         await this.userRepository.save(user);
     }
-    async removePNRToUser(userId:string , pnr:number):Promise<void>{
-        const user = await this.userRepository.findOne({where:{UserId:userId}});
-        if(!user){
-            throw new Error('usre not found');
+    async removePNRFromUser(userId: string, pnr: number): Promise<void> {
+        const user = await this.userRepository.findOne({ where: { UserId: userId } });
+        if (!user) {
+            throw new Error('User not found');
         }
-        
-        console.log('User before PNR removal:', user);
-    user.PNR = user.PNR.filter(existingPnr => existingPnr !== pnr);
-    console.log('User after PNR removal:', user);
+
+        if (!user.PNR || user.PNR.length === 0) {
+            throw new Error('User has no PNRs');
+        }
+
+        const initialLength = user.PNR.length;
+        user.PNR = user.PNR.filter(existingPnr => existingPnr !== pnr);
+
+        if (user.PNR.length === initialLength) {
+            throw new Error('PNR not found for this user');
+        }
+
         await this.userRepository.save(user);
     }
 }

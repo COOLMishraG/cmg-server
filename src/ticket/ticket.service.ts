@@ -29,11 +29,11 @@ export class TicketService {
         }
         async modifiyTicket(pnr: number, updateData: any): Promise<Ticket> {
             // Find the existing ticket by PNR
-            const ticket = await this.ticketRepository.findOne({ where: { PNR: pnr } });
+            const ticket = await this.ticketRepository.findOne({ where: { PNR: pnr.toString() } });
             console.log('Found ticket:', ticket);
             // Check if ticket was found
             if (!ticket) {
-                throw new Error('Ticket not found');
+                throw new Error(`Ticket not found ${pnr}`);
             }
     
             // Merge update data into the existing ticket
@@ -42,9 +42,13 @@ export class TicketService {
             // Save and return the updated ticket
             return this.ticketRepository.save(ticket);
         }
-        async cancleTicket(pnr:number , userId:string){
-            await this.userservices.removePNRToUser(userId , pnr);
-            return this.ticketRepository.delete({PNR:pnr});
-
+        async cancelTicket(pnr: number): Promise<any> {
+            const ticket = await this.ticketRepository.findOne({ where: { PNR: pnr.toString() } });
+            if (!ticket) {
+                throw new Error('Ticket not found');
+            }
+    
+            return this.ticketRepository.delete(ticket);
         }
+
 }

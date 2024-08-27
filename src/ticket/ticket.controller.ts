@@ -18,9 +18,14 @@ async createTicket(@Param('user') userid : string ,@Body() createTicketDto : {PN
 async modifiyTicket( @Param('pnr') pnr:number , @Body()  updateData:any):Promise<Ticket>{
     return this.ticketservice.modifiyTicket(pnr , updateData);
 }
-@Delete(':userid/:pnr')
-async cancleTicket(@Param('pnr') pnr: number,
-@Param('userid') userid: string,){
-    return this.ticketservice.cancleTicket(pnr , userid);
+@Delete(':pnr')
+async cancleTicket(@Param('pnr') pnr: number): Promise<any> {
+    if (pnr === null || pnr === undefined) {
+        throw new Error('pnr is null or undefined');
+    }
+    return this.ticketservice.cancelTicket(pnr).catch(error => {
+        console.error('Error cancelling ticket:', error);
+        throw new Error('Failed to cancel ticket');
+    });
 }
 }
