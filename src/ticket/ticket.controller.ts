@@ -1,4 +1,4 @@
-import { Body, Controller, Post , Put , Delete, Param} from '@nestjs/common';
+import { Body, Controller, Post , Put , Delete, Param, Get} from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { Ticket } from './ticket.entity';
 
@@ -14,13 +14,13 @@ async createTicket(@Param('user') userid : string ,@Body() createTicketDto : {PN
     return this.ticketservice.createTicket(PNR , journeyDate , Time , Price , Name , From , To , userid);
   }
 
-@Put(':user/:pnr')
+@Put('user/:pnr')
 async modifiyTicket( @Param('pnr') pnr:number , @Body()  updateData:any):Promise<Ticket>{
     //console.log(typeof(pnr));
     const temp:number = Number(pnr);
-    return this.ticketservice.modifiyTicket(temp , updateData);
+    return this.ticketservice.modifiyTicket(temp, updateData);
 }
-@Delete(':user/:pnr')
+@Delete('user/:pnr')
 async cancleTicket(@Param('pnr') pnr: number ,
     @Param('user') userid: string): Promise<any> {
     if (pnr === null || pnr === undefined) {
@@ -32,4 +32,7 @@ async cancleTicket(@Param('pnr') pnr: number ,
         throw new Error('Failed to cancel ticket');
     });
 }
+@Get(':user/Booking')
+async getAllPnrs(@Param('user') userid: string): Promise<number[]> {
+    return this.ticketservice.getAllPnrs(userid);}
 }

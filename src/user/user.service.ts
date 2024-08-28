@@ -49,4 +49,18 @@ export class UserService {
 
         await this.userRepository.save(user);
     }
+    async getAllPnrs(userId:string):Promise<number[]>{
+        const user = await this.userRepository.findOne({where : {UserId:userId}});
+        if(!user){
+            throw new Error('usre not found');
+        }
+        return user.PNR;
+    }
+    async getPhoneNumber(userId:string):Promise<number>{
+        const user = await this.userRepository.findOne({where : {UserId:userId}});
+        if(!user){
+            throw new Error('usre not found');
+        }
+        return user.Phone;
+    }
 }
