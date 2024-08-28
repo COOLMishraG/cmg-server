@@ -10,20 +10,24 @@ async createTicket(@Param('user') userid : string ,@Body() createTicketDto : {PN
     Price:number,Name:string , From:string , To:string
   }) : Promise<Ticket>{
     const{PNR , journeyDate , Time , Price , Name , From , To} = createTicketDto;
-    
+    //console.log(typeof(PNR));
     return this.ticketservice.createTicket(PNR , journeyDate , Time , Price , Name , From , To , userid);
   }
 
-@Put(':pnr')
+@Put(':user/:pnr')
 async modifiyTicket( @Param('pnr') pnr:number , @Body()  updateData:any):Promise<Ticket>{
-    return this.ticketservice.modifiyTicket(pnr , updateData);
+    //console.log(typeof(pnr));
+    const temp:number = Number(pnr);
+    return this.ticketservice.modifiyTicket(temp , updateData);
 }
-@Delete(':pnr')
-async cancleTicket(@Param('pnr') pnr: number): Promise<any> {
+@Delete(':user/:pnr')
+async cancleTicket(@Param('pnr') pnr: number ,
+    @Param('user') userid: string): Promise<any> {
     if (pnr === null || pnr === undefined) {
         throw new Error('pnr is null or undefined');
     }
-    return this.ticketservice.cancelTicket(pnr).catch(error => {
+    const temp:number = Number(pnr);
+    return this.ticketservice.cancelTicket(temp , userid).catch(error => {
         console.error('Error cancelling ticket:', error);
         throw new Error('Failed to cancel ticket');
     });

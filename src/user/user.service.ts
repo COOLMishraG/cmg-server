@@ -39,7 +39,7 @@ export class UserService {
         if (!user.PNR || user.PNR.length === 0) {
             throw new Error('User has no PNRs');
         }
-
+        console.log(typeof(pnr));
         const initialLength = user.PNR.length;
         user.PNR = user.PNR.filter(existingPnr => existingPnr !== pnr);
 
