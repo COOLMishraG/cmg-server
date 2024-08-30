@@ -9,12 +9,13 @@ export class UserService {
         @InjectRepository(User)
         private userRepository: MongoRepository<User>,
     ){}
-    async createUser(Name:string , email:string , Phone:number , UserId:string , PNR:number[]): Promise<User>{
+    async createUser(Name:string , email:string , Phone:number , UserId:string ,password:string , PNR:number[]): Promise<User>{
         const newUser = this.userRepository.create({
             Name,
             email,
             Phone,
             UserId,
+            password,
             PNR
         });
         return this.userRepository.save(newUser);
@@ -63,4 +64,7 @@ export class UserService {
         }
         return user.Phone;
     }
+    async getUser(userId:string):Promise<User>{
+        return this.userRepository.findOne({where : {UserId:userId}});
+    }   
 }
