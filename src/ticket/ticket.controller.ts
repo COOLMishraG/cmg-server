@@ -14,11 +14,13 @@ async createTicket(@Param('user') userid : string ,@Body() createTicketDto : {PN
     return this.ticketservice.createTicket(PNR , journeyDate , Time , Price , Name , From , To , userid);
   }
 
-@Put('user/:pnr')
-async modifiyTicket( @Param('pnr') pnr:number , @Body()  updateData:any):Promise<Ticket>{
+@Put(':user/:pnr')
+async modifiyTicket( @Param('pnr') pnr:number ,
+@Param('user') userid : string , @Body()  updateData:any):Promise<Ticket>{
     //console.log(typeof(pnr));
+    
     const temp:number = Number(pnr);
-    return this.ticketservice.modifiyTicket(temp, updateData);
+    return this.ticketservice.modifiyTicket(temp, updateData , userid);
 }
 @Delete('user/:pnr')
 async cancleTicket(@Param('pnr') pnr: number ,

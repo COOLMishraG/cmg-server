@@ -15,7 +15,7 @@ export class TicketService {
         private userservices:UserService,
         private MessagingService:MessagingService
     ){}
-        
+    
     async createTicket(PNR:number ,journeyDate:Date ,Time:String,
         Price:number,Name:string , From:string , To:string , userId:string):Promise<Ticket>{
             const ticket = this.ticketRepository.create({
@@ -35,7 +35,7 @@ export class TicketService {
             
             return createdTicket;
         }
-        async modifiyTicket(pnr: number, updateData: any): Promise<Ticket> {
+        async modifiyTicket(pnr: number, updateData: any , userid:string): Promise<Ticket> {
             // Find the existing ticket by PNR
             const ticket = await this.ticketRepository.findOne({ where: { PNR: pnr } });
             console.log('Found ticket:', ticket);
@@ -44,6 +44,10 @@ export class TicketService {
             if (!ticket) {
                 throw new Error(`Ticket not found ${pnr}`);
                 
+            }
+            const currUser:User = await  this.userservices.getUser(userid);
+            if(updateData.password!==currUser.password){
+                throw new Error(`Invalid password ${updateData.password} `);
             }
     
             // Merge update data into the existing ticket
