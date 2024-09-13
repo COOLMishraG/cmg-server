@@ -17,7 +17,7 @@ export class TicketService {
     ){}
     
     async createTicket(PNR:number ,journeyDate:Date ,Time:String,
-        Price:number,Name:string , From:string , To:string , userId:string):Promise<Ticket>{
+        Price:number,Name:string , From:string , To:string , BusNo:string ,userId:string):Promise<Ticket>{
             const ticket = this.ticketRepository.create({
                 PNR,
                 journeyDate,
@@ -25,12 +25,21 @@ export class TicketService {
                 Price,
                 Name,
                 From,
-                To
+                To,
+                BusNo
             })
 
             const createdTicket = await this.ticketRepository.save(ticket);
             const Contact = await this.userservices.getPhoneNumber(userId);
-            await this.MessagingService.sendSms("+91" + Contact.toString() ,`Ticket Confirmed:${userId} \nPNR:${createdTicket.PNR},BUSN:2323\n To : ${createdTicket.To}  \nFrom: ${createdTicket.From}\nDOJ: ${createdTicket.journeyDate}\nDPT: ${createdTicket.Time} \nBoarding allowed At ${createdTicket.From} only  \n-CMGTRAVELS`);
+            await this.MessagingService.sendSms("+91" + Contact.toString() ,`Ticket Confirmed:${userId} 
+            PNR:${createdTicket.PNR}
+            BUSNO:${createdTicket.BusNo}
+            To : ${createdTicket.To}  
+            From: ${createdTicket.From}
+            DOJ: ${createdTicket.journeyDate}
+            DPT: ${createdTicket.Time} 
+            Boarding allowed At ${createdTicket.From} only  
+            -CMGTRAVELS`);
             await this.userservices.addPNRToUser(userId , createdTicket.PNR);
             
             return createdTicket;

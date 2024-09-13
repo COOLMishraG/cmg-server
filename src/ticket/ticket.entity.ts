@@ -26,4 +26,7 @@ From:string;
 @Column()
 To:string;
 
+@Column()
+BusNo:string;
+
 }

@@ -18,6 +18,7 @@ export class UserService {
             password,
             PNR
         });
+        console.log(newUser);
         return this.userRepository.save(newUser);
     }
     async addPNRToUser(userId: string , pnr:number):Promise<void>{
