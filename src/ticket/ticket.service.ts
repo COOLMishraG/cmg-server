@@ -16,8 +16,8 @@ export class TicketService {
         private MessagingService:MessagingService
     ){}
     
-    async createTicket(PNR:number ,journeyDate:Date ,Time:String,
-        Price:number,Name:string , From:string , To:string , BusNo:string ,userId:string):Promise<Ticket>{
+    async createTicket(PNR:string ,journeyDate:Date ,Time:String,
+        Price:String,Name:string , From:string , To:string , BusNo:string ,userId:string , DepartureTime:string , ArrivalTime:string):Promise<Ticket>{
             console.log("HIII")
             const ticket = this.ticketRepository.create({
                 PNR,
@@ -27,26 +27,20 @@ export class TicketService {
                 Name,
                 From,
                 To,
-                BusNo
+                BusNo,
+                DepartureTime,
+                ArrivalTime
             })
 
             const createdTicket = await this.ticketRepository.save(ticket);
             const Contact = await this.userservices.getPhoneNumber(userId);
-            await this.MessagingService.sendSms("+91" + Contact.toString() ,`Ticket Confirmed:${userId} 
-            PNR:${createdTicket.PNR}
-            BUSNO:${createdTicket.BusNo}
-            To : ${createdTicket.To}  
-            From: ${createdTicket.From}
-            DOJ: ${createdTicket.journeyDate}
-            DPT: ${createdTicket.Time} 
-            Price: ${createdTicket.Price}
-            Boarding allowed At ${createdTicket.From} only  
-            -CMGTRAVELS`);
+            console.log(createdTicket)
+            //await this.MessagingService.sendSms("+91" + Contact.toString() ,`Ticket Confirmed:${userId}\nPNR:${createdTicket.PNR}\nBUSNO:${createdTicket.BusNo}\nTo : ${createdTicket.To}\nFrom: ${createdTicket.From}\nDOJ: ${createdTicket.journeyDate}\nDPT: ${createdTicket.Time}\nPrice: ${createdTicket.Price}\nBoarding allowed At ${createdTicket.From} only\n-CMGTRAVELS`);
             await this.userservices.addPNRToUser(userId , createdTicket.PNR);
-            
+            console.log(await this.userservices.getUser(userId))
             return createdTicket;
         }
-        async modifiyTicket(pnr: number, updateData: any , userid:string): Promise<Ticket> {
+        async modifiyTicket(pnr: string, updateData: any , userid:string): Promise<Ticket> {
             // Find the existing ticket by PNR
             const ticket = await this.ticketRepository.findOne({ where: { PNR: pnr } });
             console.log('Found ticket:', ticket);
@@ -67,7 +61,7 @@ export class TicketService {
             // Save and return the updated ticket
             return this.ticketRepository.save(ticket);
         }
-        async cancelTicket(pnr: number , userid:string): Promise<any> {
+        async cancelTicket(pnr: string , userid:string): Promise<any> {
             const result = await this.ticketRepository.findOne({where:{ PNR:pnr} });
             //console.log(typeof(pnr));
             if (!result) {
@@ -79,7 +73,7 @@ export class TicketService {
             console.log(result);
             return result;
         }
-        async getAllPnrs(userid:string):Promise<number[]>{
+        async getAllPnrs(userid:string):Promise<string[]>{
             return this.userservices.getAllPnrs(userid);
         }
 }

@@ -9,7 +9,7 @@ export class UserService {
         @InjectRepository(User)
         private userRepository: MongoRepository<User>,
     ){}
-    async createUser(Name:string , email:string , Phone:number , UserId:string ,password:string , PNR:number[]): Promise<User>{
+    async createUser(Name:string , email:string , Phone:string , UserId:string ,password:string , PNR:string[]): Promise<User>{
         console.log("user created")
         const newUser = this.userRepository.create({
             Name,
@@ -22,7 +22,7 @@ export class UserService {
         console.log(newUser);
         return this.userRepository.save(newUser);
     }
-    async addPNRToUser(userId: string , pnr:number):Promise<void>{
+    async addPNRToUser(userId: string , pnr:string):Promise<void>{
         const user =await this.userRepository.findOne({where : {UserId:userId}});
         if(!user){
             throw new Error('usre not found');
@@ -33,7 +33,7 @@ export class UserService {
         user.PNR.push(pnr);
         await this.userRepository.save(user);
     }
-    async removePNRFromUser(userId: string, pnr: number): Promise<void> {
+    async removePNRFromUser(userId: string, pnr:string): Promise<void> {
         const user = await this.userRepository.findOne({ where: { UserId: userId } });
         if (!user) {
             throw new Error('User not found');
@@ -52,19 +52,19 @@ export class UserService {
 
         await this.userRepository.save(user);
     }
-    async getAllPnrs(userId:string):Promise<number[]>{
+    async getAllPnrs(userId:string):Promise<string[]>{
         const user = await this.userRepository.findOne({where : {UserId:userId}});
         if(!user){
             throw new Error('usre not found');
         }
         return user.PNR;
     }
-    async getPhoneNumber(userId:string):Promise<number>{
+    async getPhoneNumber(userId:string):Promise<String>{
         const user = await this.userRepository.findOne({where : {UserId:userId}});
         if(!user){
             throw new Error('usre not found');
         }
-        return user.Phone;
+        return user.Phone.toString();
     }
     async getUser(userId:string):Promise<User>{
         return this.userRepository.findOne({where : {UserId:userId}});

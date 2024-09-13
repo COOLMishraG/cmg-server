@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 export class UserController {
     constructor(private readonly userService : UserService){}
 @Post()
-async create(@Body() createUserDto : {Name : string , email : string, password : string, Phone:number , UserId:string , PNR : number[]}) : Promise<User>{
+async create(@Body() createUserDto : {Name : string , email : string, password : string, Phone:string , UserId:string , PNR : string[]}) : Promise<User>{
     const {Name , email , Phone , UserId ,password , PNR} = createUserDto;
     return this.userService.createUser(Name , email , Phone , UserId ,password ,  PNR);
 }

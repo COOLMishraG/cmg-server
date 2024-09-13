@@ -14,12 +14,11 @@ Name:string;
 email:string;
 
 @Column()
-Phone:number;
+Phone:string;
 
 @Column()
 password:string;
 
 @Column({ type: 'simple-array', nullable: true })
-PNR: number[];
-
+PNR: string[];
 }

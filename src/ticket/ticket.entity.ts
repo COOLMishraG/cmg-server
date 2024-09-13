@@ -6,7 +6,7 @@ export class Ticket{
 @ObjectIdColumn()
 id:ObjectId;
 @Column()
-PNR:number;
+PNR:string;
 
 @Column()
 journeyDate:Date;
@@ -15,7 +15,7 @@ journeyDate:Date;
 Time:String;
 
 @Column()
-Price:number;
+Price:String;
 
 @Column()
 Name:string;
@@ -29,4 +29,11 @@ To:string;
 @Column()
 BusNo:string;
 
+@Column()
+DepartureTime:string;
+
+@Column()
+ArrivalTime:string;
+
 }
+    
