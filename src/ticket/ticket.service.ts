@@ -18,6 +18,7 @@ export class TicketService {
     
     async createTicket(PNR:number ,journeyDate:Date ,Time:String,
         Price:number,Name:string , From:string , To:string , BusNo:string ,userId:string):Promise<Ticket>{
+            console.log("HIII")
             const ticket = this.ticketRepository.create({
                 PNR,
                 journeyDate,
@@ -38,6 +39,7 @@ export class TicketService {
             From: ${createdTicket.From}
             DOJ: ${createdTicket.journeyDate}
             DPT: ${createdTicket.Time} 
+            Price: ${createdTicket.Price}
             Boarding allowed At ${createdTicket.From} only  
             -CMGTRAVELS`);
             await this.userservices.addPNRToUser(userId , createdTicket.PNR);

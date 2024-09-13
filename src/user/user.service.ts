@@ -10,6 +10,7 @@ export class UserService {
         private userRepository: MongoRepository<User>,
     ){}
     async createUser(Name:string , email:string , Phone:number , UserId:string ,password:string , PNR:number[]): Promise<User>{
+        console.log("user created")
         const newUser = this.userRepository.create({
             Name,
             email,
