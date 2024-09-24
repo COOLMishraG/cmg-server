@@ -1,6 +1,7 @@
 import { Body, Controller, Post , Put , Delete, Param, Get} from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { Ticket } from './ticket.entity';
+import { User } from 'src/user/user.entitiy';
 
 @Controller()
 export class TicketController {
@@ -33,8 +34,8 @@ async cancleTicket(@Param('pnr') pnr: string ,
 } 
 @Get(':user/Booking')
 async getAllPnrs(@Param('user') userid: string): Promise<string[]> {
-    console.log(this.ticketservice.getAllPnrs(userid));
-    return this.ticketservice.getAllPnrs(userid);}
+    console.log(await this.ticketservice.getAllPnrs(userid));
+    return await this.ticketservice.getAllPnrs(userid);}
 
 @Get(':user/:pnr')
 async getTicket(@Param('pnr') pnr: string ,

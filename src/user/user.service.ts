@@ -66,7 +66,14 @@ export class UserService {
         }
         return user.Phone.toString();
     }
-    async getUser(userId:string):Promise<User>{
-        return this.userRepository.findOne({where : {UserId:userId}});
-    }   
+    async getUser(userId: string): Promise<User | null> {
+        try {
+            const user = await this.userRepository.findOne({ where: { UserId: userId } });
+            return user || null; // Return null if no user is found
+        } catch (error) {
+            console.error(`Error fetching user with UserId ${userId}:`, error);
+            throw new Error('Failed to fetch user'); // Throw a generic error or handle it as needed
+        }
+    }
+      
 }

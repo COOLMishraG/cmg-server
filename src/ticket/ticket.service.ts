@@ -74,7 +74,7 @@ export class TicketService {
             return result;
         }
         async getAllPnrs(userid:string):Promise<string[]>{
-            return this.userservices.getAllPnrs(userid);
+            return await this.userservices.getAllPnrs(userid);
         }
         async getTicket(pnr: string , userid:string):Promise<Ticket>{
             return this.ticketRepository.findOne({where:{ PNR:pnr} });
