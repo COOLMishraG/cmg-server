@@ -8,11 +8,11 @@ export class TicketController {
     constructor(private readonly ticketservice  : TicketService){}
 @Post(':user/ticket')
 async createTicket(@Param('user') userid : string ,@Body() createTicketDto : {PNR:string ,journeyDate:Date ,Time:String,
-    Price:string,Name:string , From:string , To:string , BusNo:string , departTime:string , arrivalTime:string,
+    Price:string,Name:string , From:string , To:string , BusNo:string , DepartureTime:string , ArrivalTime:string,
   }) : Promise<Ticket>{
-    const{PNR , journeyDate , Time , Price , Name , From , To , BusNo , departTime , arrivalTime} = createTicketDto;
+    const{PNR , journeyDate , Time , Price , Name , From , To , BusNo , DepartureTime , ArrivalTime} = createTicketDto;
     //console.log(typeof(PNR));
-    return this.ticketservice.createTicket(PNR , journeyDate , Time , Price , Name , From , To  , BusNo , userid , departTime , arrivalTime);
+    return this.ticketservice.createTicket(PNR , journeyDate , Time , Price , Name , From , To  , BusNo , userid , DepartureTime , ArrivalTime);
   }
 
 @Put(':user/:pnr')

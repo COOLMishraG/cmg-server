@@ -34,7 +34,7 @@ export class TicketService {
             const createdTicket = await this.ticketRepository.save(ticket);
             const Contact = await this.userservices.getPhoneNumber(userId);
             console.log(createdTicket)
-            await this.MessagingService.sendSms("+91" + Contact.toString() ,`\nTicket Confirmed:${userId}\nName:${createdTicket.Name}\nPNR:${createdTicket.PNR}\nBUSNO:${createdTicket.BusNo}\nTo : ${createdTicket.To}\nFrom: ${createdTicket.From}\nDOJ: ${createdTicket.journeyDate}\nDPT: ${createdTicket.DepartureTime}\nAVT: ${createdTicket.ArrivalTime}\nPrice: ${createdTicket.Price}\nBoarding allowed At ${createdTicket.From} only\n-CMGTRAVELS`);
+            await this.MessagingService.sendSms("+91" + Contact.toString() ,`\nTicket Confirmed:${userId}\nName:${createdTicket.Name}\nPNR:${createdTicket.PNR}\nBUSNO:${createdTicket.BusNo}\nTo : ${createdTicket.To}\nFrom: ${createdTicket.From}\nDPT: ${createdTicket.DepartureTime}\nAVT: ${createdTicket.ArrivalTime}\nPrice: ${createdTicket.Price}\nBoarding allowed At ${createdTicket.From} only\n-CMGTRAVELS`);
             await this.userservices.addPNRToUser(userId , createdTicket.PNR);
             console.log(await this.userservices.getUser(userId))
             
