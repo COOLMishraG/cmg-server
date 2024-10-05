@@ -50,6 +50,7 @@ export class TicketService {
                 throw new Error(`Ticket not found ${pnr}`);
                 
             }
+            
             const currUser:User = await  this.userservices.getUser(userid);
             if(updateData.password!==currUser.password){
                 throw new Error(`Invalid password ${updateData.password} `);
