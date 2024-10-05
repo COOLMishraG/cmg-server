@@ -17,7 +17,6 @@ export class TicketService {
     
     async createTicket(PNR:string ,journeyDate:Date ,Time:String,
         Price:String,Name:string , From:string , To:string , BusNo:string ,userId:string , DepartureTime:string , ArrivalTime:string):Promise<Ticket>{
-            console.log("HIII")
             const ticket = this.ticketRepository.create({
                 PNR,
                 journeyDate,
