@@ -19,7 +19,12 @@ export class UserService {
             password,
             PNR
         });
-        console.log(newUser);
+        console.log(newUser.Name);
+        console.log(newUser.email);
+        console.log(newUser.Phone);
+        console.log(newUser.UserId);
+        console.log(newUser.PNR);
+
         return this.userRepository.save(newUser);
     }
     async addPNRToUser(userId: string , pnr:string):Promise<void>{

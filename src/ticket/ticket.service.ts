@@ -35,8 +35,12 @@ export class TicketService {
             console.log(createdTicket)
             await this.MessagingService.sendSms("+91" + Contact.toString() ,`\nTicket Confirmed:${userId}\nName:${createdTicket.Name}\nPNR:${createdTicket.PNR}\nBUSNO:${createdTicket.BusNo}\nTo : ${createdTicket.To}\nFrom: ${createdTicket.From}\nDPT: ${createdTicket.DepartureTime}\nAVT: ${createdTicket.ArrivalTime}\nPrice: ${createdTicket.Price}\nBoarding allowed At ${createdTicket.From} only\n-CMGTRAVELS`);
             await this.userservices.addPNRToUser(userId , createdTicket.PNR);
-            console.log(await this.userservices.getUser(userId))
-            
+            const newUser = await this.userservices.getUser(userId);
+            console.log(newUser.Name);
+            console.log(newUser.email);
+            console.log(newUser.Phone);
+            console.log(newUser.UserId);
+            console.log(newUser.PNR);            
             return createdTicket;
         }
         async modifiyTicket(pnr: string, updateData: any , userid:string): Promise<Ticket> {
